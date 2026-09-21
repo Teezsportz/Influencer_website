@@ -24,7 +24,7 @@ export default function Landing() {
 
         <div className="grid gap-6 sm:grid-cols-2">
           <Link
-            to="/agency/c-northwind"
+            to="/agency/c-firstbank"
             className="group rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
           >
             <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-100 text-indigo-700">

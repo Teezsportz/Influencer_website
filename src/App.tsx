@@ -7,7 +7,7 @@ export default function App() {
   return (
     <Routes>
       <Route path="/" element={<Landing />} />
-      <Route path="/agency" element={<Navigate to="/agency/c-northwind" replace />} />
+      <Route path="/agency" element={<Navigate to="/agency/c-firstbank" replace />} />
       <Route path="/agency/:clientId" element={<AgencyDashboard />} />
       <Route path="/client/:clientId" element={<ClientPortal />} />
       <Route path="*" element={<Navigate to="/" replace />} />
