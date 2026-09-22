@@ -4,6 +4,7 @@ import PostCard from "../components/PostCard";
 import PostDetailDrawer from "../components/PostDetailDrawer";
 import { useData } from "../lib/store";
 import type { Post } from "../types";
+import { groupByMonth } from "../lib/format";
 
 const CLIENT_VIEWER_NAME = "You";
 const VISIBLE_STATUSES: Post["status"][] = ["in_review", "changes_requested", "approved"];
@@ -17,10 +18,9 @@ export default function ClientPortal() {
 
   const posts = useMemo(() => {
     if (!clientId) return [];
-    return postsForClient(clientId)
-      .filter((p) => VISIBLE_STATUSES.includes(p.status))
-      .sort((a, b) => a.scheduledDate.localeCompare(b.scheduledDate));
+    return postsForClient(clientId).filter((p) => VISIBLE_STATUSES.includes(p.status));
   }, [clientId, postsForClient]);
+  const months = useMemo(() => groupByMonth(posts), [posts]);
 
   const pendingCount = posts.filter((p) => p.status === "in_review").length;
   const selectedPost = posts.find((p) => p.id === selectedPostId) ?? null;
@@ -65,22 +65,32 @@ export default function ClientPortal() {
         </div>
       </header>
 
-      <main className="mx-auto max-w-6xl px-6 py-8">
+      <main className="mx-auto max-w-6xl space-y-8 px-6 py-8">
         {posts.length === 0 ? (
           <div className="flex h-64 flex-col items-center justify-center rounded-xl border border-dashed border-slate-300 text-sm text-slate-400">
             Nothing shared for review yet — check back soon.
           </div>
         ) : (
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-            {posts.map((post) => (
-              <PostCard
-                key={post.id}
-                post={post}
-                commentCount={commentsForPost(post.id).length}
-                onClick={() => setSelectedPostId(post.id)}
-              />
-            ))}
-          </div>
+          months.map((month) => (
+            <section key={month.key}>
+              <div className="mb-3 flex items-baseline gap-2">
+                <h2 className="text-sm font-semibold text-slate-900">{month.label}</h2>
+                <span className="text-xs text-slate-400">
+                  {month.posts.length} post{month.posts.length === 1 ? "" : "s"}
+                </span>
+              </div>
+              <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+                {month.posts.map((post) => (
+                  <PostCard
+                    key={post.id}
+                    post={post}
+                    commentCount={commentsForPost(post.id).length}
+                    onClick={() => setSelectedPostId(post.id)}
+                  />
+                ))}
+              </div>
+            </section>
+          ))
         )}
       </main>
 

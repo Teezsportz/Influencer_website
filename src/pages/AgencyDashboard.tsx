@@ -5,7 +5,7 @@ import PostCard from "../components/PostCard";
 import PostEditorModal from "../components/PostEditorModal";
 import { useData } from "../lib/store";
 import type { Post, PostStatus } from "../types";
-import { STATUS_META } from "../lib/format";
+import { groupByMonth, STATUS_META } from "../lib/format";
 
 const FILTERS: Array<{ key: "all" | PostStatus; label: string }> = [
   { key: "all", label: "All" },
@@ -26,9 +26,10 @@ export default function AgencyDashboard() {
   const activeClient = clientId ? getClient(clientId) : undefined;
   const posts = useMemo(() => {
     if (!clientId) return [];
-    const all = postsForClient(clientId).slice().sort((a, b) => a.scheduledDate.localeCompare(b.scheduledDate));
+    const all = postsForClient(clientId);
     return filter === "all" ? all : all.filter((p) => p.status === filter);
   }, [clientId, filter, postsForClient]);
+  const months = useMemo(() => groupByMonth(posts), [posts]);
 
   if (!clientId || !activeClient) {
     return (
@@ -126,7 +127,7 @@ export default function AgencyDashboard() {
           ))}
         </div>
 
-        <div className="p-6">
+        <div className="space-y-8 p-6">
           {posts.length === 0 ? (
             <div className="flex h-64 flex-col items-center justify-center rounded-xl border border-dashed border-slate-300 text-sm text-slate-400">
               No content here yet.
@@ -135,16 +136,26 @@ export default function AgencyDashboard() {
               </button>
             </div>
           ) : (
-            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-              {posts.map((post) => (
-                <PostCard
-                  key={post.id}
-                  post={post}
-                  commentCount={commentsForPost(post.id).length}
-                  onClick={() => setEditingPost(post)}
-                />
-              ))}
-            </div>
+            months.map((month) => (
+              <section key={month.key}>
+                <div className="mb-3 flex items-baseline gap-2">
+                  <h2 className="text-sm font-semibold text-slate-900">{month.label}</h2>
+                  <span className="text-xs text-slate-400">
+                    {month.posts.length} post{month.posts.length === 1 ? "" : "s"}
+                  </span>
+                </div>
+                <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+                  {month.posts.map((post) => (
+                    <PostCard
+                      key={post.id}
+                      post={post}
+                      commentCount={commentsForPost(post.id).length}
+                      onClick={() => setEditingPost(post)}
+                    />
+                  ))}
+                </div>
+              </section>
+            ))
           )}
         </div>
       </main>

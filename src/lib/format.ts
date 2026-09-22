@@ -1,4 +1,4 @@
-import type { Platform, PostStatus } from "../types";
+import type { Platform, Post, PostStatus } from "../types";
 
 export const STATUS_META: Record<PostStatus, { label: string; className: string }> = {
   draft: { label: "Draft", className: "bg-slate-100 text-slate-600 ring-slate-300" },
@@ -29,6 +29,32 @@ export function formatDateTime(iso: string): string {
     hour: "numeric",
     minute: "2-digit",
   });
+}
+
+export interface MonthGroup {
+  key: string; // "YYYY-MM"
+  label: string; // "January 2026"
+  posts: Post[];
+}
+
+export function groupByMonth(posts: Post[]): MonthGroup[] {
+  const map = new Map<string, Post[]>();
+  for (const post of posts) {
+    const key = post.scheduledDate.slice(0, 7);
+    const bucket = map.get(key);
+    if (bucket) bucket.push(post);
+    else map.set(key, [post]);
+  }
+  return Array.from(map.entries())
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([key, monthPosts]) => ({
+      key,
+      label: new Date(`${key}-01T00:00:00`).toLocaleDateString(undefined, {
+        month: "long",
+        year: "numeric",
+      }),
+      posts: monthPosts.slice().sort((a, b) => a.scheduledDate.localeCompare(b.scheduledDate)),
+    }));
 }
 
 export function relativeTime(iso: string): string {
