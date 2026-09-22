@@ -59,7 +59,7 @@ export default function ClientPortal() {
               </span>
             )}
             <Link to="/" className="text-xs font-medium text-slate-400 hover:text-slate-600">
-              Exit preview
+              Log out
             </Link>
           </div>
         </div>

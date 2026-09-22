@@ -47,11 +47,12 @@ export default function AgencyDashboard() {
       <aside className="flex w-64 shrink-0 flex-col border-r border-slate-200 bg-white">
         <div className="border-b border-slate-100 px-4 py-4">
           <Link to="/" className="flex items-center gap-2 text-sm font-semibold text-slate-900">
-            <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-slate-900 text-xs text-white">
-              CH
+            <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-emerald-400 to-indigo-500 text-xs text-white">
+              DX
             </span>
-            Content Approval Hub
+            DigitX Content
           </Link>
+          <p className="mt-1 pl-9 text-[11px] text-slate-400">Switch brand or role ↗</p>
         </div>
         <nav className="flex-1 space-y-1 overflow-y-auto p-3">
           <p className="px-2 pb-1 pt-2 text-[11px] font-semibold uppercase tracking-wide text-slate-400">
