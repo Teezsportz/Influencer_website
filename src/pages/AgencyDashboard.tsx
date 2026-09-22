@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import digitxMark from "../assets/brand/digitx-mark-orange.png";
 import PostCard from "../components/PostCard";
 import PostEditorModal from "../components/PostEditorModal";
 import { useData } from "../lib/store";
@@ -33,7 +34,7 @@ export default function AgencyDashboard() {
     return (
       <div className="flex h-screen items-center justify-center text-slate-500">
         Unknown client workspace.{" "}
-        <Link to="/" className="ml-1 text-indigo-600 underline">
+        <Link to="/" className="ml-1 text-brand underline">
           Go home
         </Link>
       </div>
@@ -47,8 +48,8 @@ export default function AgencyDashboard() {
       <aside className="flex w-64 shrink-0 flex-col border-r border-slate-200 bg-white">
         <div className="border-b border-slate-100 px-4 py-4">
           <Link to="/" className="flex items-center gap-2 text-sm font-semibold text-slate-900">
-            <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-emerald-400 to-indigo-500 text-xs text-white">
-              DX
+            <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-brand p-1">
+              <img src={digitxMark} alt="digitX" className="h-full w-full object-contain" />
             </span>
             DigitX Content
           </Link>
@@ -65,7 +66,7 @@ export default function AgencyDashboard() {
                 key={client.id}
                 onClick={() => navigate(`/agency/${client.id}`)}
                 className={`flex w-full items-center gap-2 rounded-lg px-2 py-2 text-left text-sm transition ${
-                  isActive ? "bg-slate-900 text-white" : "text-slate-600 hover:bg-slate-100"
+                  isActive ? "bg-brand text-white" : "text-slate-600 hover:bg-slate-100"
                 }`}
               >
                 <span
@@ -103,7 +104,7 @@ export default function AgencyDashboard() {
           <button
             type="button"
             onClick={() => setEditingPost("new")}
-            className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-500"
+            className="rounded-lg bg-accent px-4 py-2 text-sm font-medium text-brand-dark hover:bg-accent-dark"
           >
             + New post
           </button>
@@ -116,7 +117,7 @@ export default function AgencyDashboard() {
               onClick={() => setFilter(f.key)}
               className={`rounded-full px-3 py-1.5 text-xs font-medium transition ${
                 filter === f.key
-                  ? "bg-slate-900 text-white"
+                  ? "bg-brand text-white"
                   : "bg-slate-100 text-slate-600 hover:bg-slate-200"
               }`}
             >
@@ -129,7 +130,7 @@ export default function AgencyDashboard() {
           {posts.length === 0 ? (
             <div className="flex h-64 flex-col items-center justify-center rounded-xl border border-dashed border-slate-300 text-sm text-slate-400">
               No content here yet.
-              <button className="mt-2 text-indigo-600 underline" onClick={() => setEditingPost("new")}>
+              <button className="mt-2 text-brand underline" onClick={() => setEditingPost("new")}>
                 Create the first post
               </button>
             </div>

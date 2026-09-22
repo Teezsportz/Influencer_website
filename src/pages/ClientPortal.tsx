@@ -29,7 +29,7 @@ export default function ClientPortal() {
     return (
       <div className="flex h-screen items-center justify-center text-slate-500">
         Unknown workspace.{" "}
-        <Link to="/" className="ml-1 text-indigo-600 underline">
+        <Link to="/" className="ml-1 text-brand underline">
           Go home
         </Link>
       </div>

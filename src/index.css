@@ -2,6 +2,14 @@
 
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  /* digitXplus brand palette — from the Mini Brand Guide */
+  --color-brand: #4e1304; /* Primary — "Black Bean" */
+  --color-brand-dark: #38040e; /* Tertiary — deeper Black Bean */
+  --color-brand-light: #7a2a12; /* lighter brown, hover states on dark surfaces */
+  --color-accent: #ffa10a; /* Secondary — "Xanthous" */
+  --color-accent-dark: #e08a00; /* accent hover */
+  --color-accent-light: #ffc35c; /* soft accent tint */
 }
 
 html {

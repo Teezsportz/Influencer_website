@@ -90,7 +90,7 @@ export default function PostEditorModal({
             <label className="mb-1 block text-xs font-medium text-slate-600">Creative</label>
             <div
               onClick={() => fileInputRef.current?.click()}
-              className="flex aspect-video w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg border-2 border-dashed border-slate-200 bg-slate-50 hover:border-indigo-300"
+              className="flex aspect-video w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg border-2 border-dashed border-slate-200 bg-slate-50 hover:border-accent/50"
             >
               {imageDataUrl ? (
                 <img src={imageDataUrl} alt="Creative preview" className="h-full w-full object-cover" />
@@ -113,7 +113,7 @@ export default function PostEditorModal({
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="e.g. Autumn Latte Launch"
-              className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400"
+              className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none focus:border-accent focus:ring-1 focus:ring-accent"
             />
           </div>
 
@@ -124,7 +124,7 @@ export default function PostEditorModal({
               onChange={(e) => setCaption(e.target.value)}
               rows={4}
               placeholder="Write the post copy the client will see..."
-              className="w-full resize-none rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400"
+              className="w-full resize-none rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none focus:border-accent focus:ring-1 focus:ring-accent"
             />
           </div>
 
@@ -134,7 +134,7 @@ export default function PostEditorModal({
               <select
                 value={platform}
                 onChange={(e) => setPlatform(e.target.value as Platform)}
-                className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400"
+                className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none focus:border-accent focus:ring-1 focus:ring-accent"
               >
                 {PLATFORMS.map((p) => (
                   <option key={p} value={p}>
@@ -149,7 +149,7 @@ export default function PostEditorModal({
                 type="date"
                 value={scheduledDate}
                 onChange={(e) => setScheduledDate(e.target.value)}
-                className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400"
+                className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none focus:border-accent focus:ring-1 focus:ring-accent"
               />
             </div>
           </div>
@@ -163,7 +163,7 @@ export default function PostEditorModal({
                   type="button"
                   onClick={() => setStatus(s)}
                   className={`rounded-full px-3 py-1 text-xs font-medium ring-1 ring-inset transition ${
-                    status === s ? "ring-2 ring-indigo-500" : "opacity-60 hover:opacity-100"
+                    status === s ? "ring-2 ring-accent" : "opacity-60 hover:opacity-100"
                   } ${STATUS_META[s].className}`}
                 >
                   {STATUS_META[s].label}
@@ -200,7 +200,7 @@ export default function PostEditorModal({
               type="button"
               onClick={handleSubmit}
               disabled={!title.trim()}
-              className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-700 disabled:cursor-not-allowed disabled:opacity-40"
+              className="rounded-lg bg-brand px-4 py-2 text-sm font-medium text-white hover:bg-brand-light disabled:cursor-not-allowed disabled:opacity-40"
             >
               {post ? "Save changes" : "Add to calendar"}
             </button>

@@ -14,19 +14,52 @@ function isoNow(minutesAgo = 0): string {
   return d.toISOString();
 }
 
-// AI-generated caricature/illustrated creatives, one per seeded post.
+// Self-contained, brand-styled creative illustrations — no external hosting,
+// so they can never go missing. Every card carries a faint honeycomb texture
+// in the digitX accent color as a subtle "made on DigitX" watermark, tinted
+// per-brand, with a big expressive emoji standing in for the caricature art.
 // Swap for a real upload any time via the editor's "Creative" field.
+const HONEYCOMB_ACCENT = "#FFA10A"; // Xanthous — digitX secondary brand color
+
+function hexPattern(id: string, color: string): string {
+  const r = 16;
+  const hx = Math.round(r * Math.sqrt(3) * 100) / 200; // half-width
+  const w = hx * 2;
+  const h = r * 3;
+  const hex = (cx: number, cy: number) =>
+    `M${cx},${cy - r} L${cx - hx},${cy - r / 2} L${cx - hx},${cy + r / 2} L${cx},${cy + r} L${cx + hx},${cy + r / 2} L${cx + hx},${cy - r / 2} Z`;
+  return `<pattern id="${id}" width="${w}" height="${h}" patternUnits="userSpaceOnUse">
+    <path d="${hex(hx, r)}" fill="none" stroke="${color}" stroke-width="1.5" opacity="0.16" />
+    <path d="${hex(0, r * 2.5)}" fill="none" stroke="${color}" stroke-width="1.5" opacity="0.16" />
+    <path d="${hex(w, r * 2.5)}" fill="none" stroke="${color}" stroke-width="1.5" opacity="0.16" />
+  </pattern>`;
+}
+
+function creative(bg: string, fg: string, emoji: string, label: string): string {
+  const patternId = `hex-${bg.replace("#", "")}`;
+  const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='600' height='600'>
+    <defs>${hexPattern(patternId, HONEYCOMB_ACCENT)}</defs>
+    <rect width='600' height='600' fill='${bg}'/>
+    <rect width='600' height='600' fill='url(#${patternId})'/>
+    <circle cx='300' cy='250' r='132' fill='#ffffff' fill-opacity='0.55'/>
+    <text x='300' y='300' font-size='140' text-anchor='middle'>${emoji}</text>
+    <text x='300' y='524' font-family='Inter, sans-serif' font-size='32' font-weight='700'
+      fill='${fg}' text-anchor='middle'>${label}</text>
+  </svg>`;
+  return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+}
+
 const CARICATURES = {
-  p1: "https://d8j0ntlcm91z4.cloudfront.net/user_3H8G4sc5yYK7dAUw19zZgHmsJuj/hf_20260922_102056_3c1c4f48-1abc-4848-b713-aec4f4da69e8.png",
-  p2: "https://d8j0ntlcm91z4.cloudfront.net/user_3H8G4sc5yYK7dAUw19zZgHmsJuj/hf_20260922_102056_87667102-717e-4f31-8862-cee9d5e282ac.png",
-  p3: "https://d8j0ntlcm91z4.cloudfront.net/user_3H8G4sc5yYK7dAUw19zZgHmsJuj/hf_20260922_102056_7326d153-f7f2-4e4b-a10e-7f4a2f0d575a.png",
-  p4: "https://d8j0ntlcm91z4.cloudfront.net/user_3H8G4sc5yYK7dAUw19zZgHmsJuj/hf_20260922_102056_24879d3c-d346-4c13-b45a-dcbfbfe43edf.png",
-  p5: "https://d8j0ntlcm91z4.cloudfront.net/user_3H8G4sc5yYK7dAUw19zZgHmsJuj/hf_20260922_102056_7f50e149-15b2-4648-b680-f5adcd69ce3e.png",
-  p6: "https://d8j0ntlcm91z4.cloudfront.net/user_3H8G4sc5yYK7dAUw19zZgHmsJuj/hf_20260922_102057_cbc31df5-9048-473c-96b1-f34594681e3c.png",
-  p7: "https://d8j0ntlcm91z4.cloudfront.net/user_3H8G4sc5yYK7dAUw19zZgHmsJuj/hf_20260922_102056_6a9e9ebc-5f7a-4389-be3b-2f0ff70518c0.png",
-  p8: "https://d8j0ntlcm91z4.cloudfront.net/user_3H8G4sc5yYK7dAUw19zZgHmsJuj/hf_20260922_102056_17a8cc65-db5d-4fd6-a047-84fa3f6c160d.png",
-  p9: "https://d8j0ntlcm91z4.cloudfront.net/user_3H8G4sc5yYK7dAUw19zZgHmsJuj/hf_20260922_102056_daa7db96-c5a8-47f2-b88b-f8e8c8047975.png",
-  p10: "https://d8j0ntlcm91z4.cloudfront.net/user_3H8G4sc5yYK7dAUw19zZgHmsJuj/hf_20260922_102055_9e761c43-9481-4058-aecf-c5af1a703b7c.png",
+  p1: creative("#DBEAFE", "#0F4C81", "🏡", "Home Loan Rates"),
+  p2: creative("#BFDBFE", "#0F4C81", "🐷", "Saving Tips"),
+  p3: creative("#93C5FD", "#0F4C81", "🙌", "Customer Story"),
+  p4: creative("#FBCFE8", "#831843", "🧴", "Glow Serum"),
+  p5: creative("#F9A8D4", "#831843", "🌙", "5-Step Routine"),
+  p6: creative("#FECACA", "#7F1D1D", "🚿", "New Water Heater"),
+  p7: creative("#FCA5A5", "#7F1D1D", "💡", "Energy-Saving Tips"),
+  p8: creative("#FDE68A", "#7C2D12", "🍝", "Sunday Jollof Swap"),
+  p9: creative("#FCD34D", "#78350F", "🏭", "Behind the Pack"),
+  p10: creative("#FBBF24", "#78350F", "🍲", "Pot Finisher"),
 } as const;
 
 export const seedClients: Client[] = [

@@ -3,7 +3,7 @@ import type { Comment, CommentAuthorRole } from "../types";
 import { relativeTime } from "../lib/format";
 
 const ROLE_STYLE: Record<CommentAuthorRole, string> = {
-  agency: "bg-indigo-600",
+  agency: "bg-brand",
   client: "bg-emerald-600",
   system: "bg-slate-400",
 };
@@ -80,13 +80,13 @@ export default function CommentThread({
             }}
             placeholder={placeholder ?? `Comment as ${currentAuthorName}...`}
             rows={2}
-            className="flex-1 resize-none rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400"
+            className="flex-1 resize-none rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none focus:border-accent focus:ring-1 focus:ring-accent"
           />
           <button
             type="button"
             onClick={submit}
             disabled={!draft.trim()}
-            className="rounded-lg bg-slate-900 px-3 py-2 text-sm font-medium text-white transition hover:bg-slate-700 disabled:cursor-not-allowed disabled:opacity-40"
+            className="rounded-lg bg-brand px-3 py-2 text-sm font-medium text-white transition hover:bg-brand-light disabled:cursor-not-allowed disabled:opacity-40"
           >
             Send
           </button>
